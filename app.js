@@ -10,6 +10,7 @@ let haveBook = JSON.parse(localStorage.getItem('Books'))
 if(localStorage.getItem('Books')){
   let convertBooks = JSON.parse(localStorage.getItem('Books'));
   console.log(convertBooks)
+  console.log(convertBooks[0].ID)
   // console.log(convertBooks.length)
   for(let i=0; i < convertBooks.length; i++){
     let displayBook = document.createElement('p');
@@ -26,6 +27,7 @@ if(localStorage.getItem('Books')){
     bookmakrs.append(bookContainer); 
 
     // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+    bookContainer.setAttribute('id', convertBooks[i].ID)
     bookContainer.setAttribute('class', 'books')
 
 
