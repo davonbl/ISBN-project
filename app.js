@@ -9,7 +9,7 @@ let haveBook = JSON.parse(localStorage.getItem('Books'))
 
 if(localStorage.getItem('Books')){
   let convertBooks = JSON.parse(localStorage.getItem('Books'));
-  // console.log(convertBooks)
+  console.log(convertBooks)
   // console.log(convertBooks.length)
   for(let i=0; i < convertBooks.length; i++){
     let displayBook = document.createElement('p');
@@ -17,18 +17,19 @@ if(localStorage.getItem('Books')){
 
     let titleNAuthor = convertBooks[i]['Title'] + ' by ' + convertBooks[i]['Author']
     displayBook.innerText = titleNAuthor
-    bookmakrs.append(displayBook)
+
+
+    // bookmakrs.append(displayBook)
+    let bookContainer = document.createElement('div')
+    bookContainer.append(displayBook)
+
+    bookmakrs.append(bookContainer); 
+
+    // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+    bookContainer.setAttribute('class', 'books')
+
+
     let changePage = convertBooks[i]['Goodreads_url']
-
-      // for(let key in convertBooks[i]){
-      //   // console.log(key)
-      //   // console.log(convertBooks[i][key])
-      //   // console.log('testing: ', convertBooks[i]['Title'])
-      //   // console.log(key.title)
-      //   // console.log(key['ISBN'])
-        
-      // }
-
       displayBook.addEventListener('click', ()=> {
         console.log('you just click on title')
         console.log(window.location.href)
@@ -40,6 +41,14 @@ if(localStorage.getItem('Books')){
           // window.location.href = `https://www.goodreads.com/book/show/${}`
         }
       })
+          // for(let key in convertBooks[i]){
+      //   // console.log(key)
+      //   // console.log(convertBooks[i][key])
+      //   // console.log('testing: ', convertBooks[i]['Title'])
+      //   // console.log(key.title)
+      //   // console.log(key['ISBN'])
+        
+      // }
   }
 }
 
@@ -113,6 +122,7 @@ testISBN.addEventListener("keydown", (e) => {
 
         // displayBook.style.fontWeight = 'bold'; 
         bookmakrs.append(displayBook); 
+
         
         // localstorage
         if(!localStorage.getItem('Books')){
@@ -212,12 +222,13 @@ function getBookInfo() {
 
       let titleNAuthorObj = [
         { 
+          ID: lowerCaseName,
           Title: bookData.title, 
           Author:author,
           ISBN: passISBN,
           Goodreads_url: changeURL
         }]
-
+    
       if(bookData.hasOwnProperty('subtitle')){
         titleNAuthor = `${bookData.title}: ${bookData.subtitle} by ${author}`;
         displayBook.innerText = titleNAuthor
@@ -236,6 +247,14 @@ function getBookInfo() {
       let getNewIDNumber = JSON.parse(localStorage.getItem('Books'))
       // console.log('Get the length ', getNewIDNumber.length)
       if(!localStorage.getItem('Books')){
+        titleNAuthorObj = [
+          { 
+            ID: `${lowerCaseName}${0}`,
+            Title: bookData.title, 
+            Author:author,
+            ISBN: passISBN,
+            Goodreads_url: changeURL
+          }]
         localStorage.setItem('Books', JSON.stringify(titleNAuthorObj))
         getNewIDNumber = JSON.parse(localStorage.getItem('Books'));
         // for(let i = 0; i <= getNewIDNumber.length; i++){
@@ -244,15 +263,49 @@ function getBookInfo() {
         bookContainer.setAttribute('class', 'books')
         console.log('Get the length ', getNewIDNumber.length)
       }else{
-        // debugger
+        debugger
         /* There is an issue on the for loop when I just fo i < converItem.length */
         let convertItem = JSON.parse(localStorage.getItem('Books'))
+        // titleNAuthorObj = [
+        //   { 
+        //     ID: lowerCaseName,
+        //     Title: bookData.title, 
+        //     Author:author,
+        //     ISBN: passISBN,
+        //     Goodreads_url: changeURL
+        //   }]
+
+
+
         convertItem.push(titleNAuthorObj[0])
-        localStorage.setItem('Books', JSON.stringify(convertItem))
+        console.log(convertItem)
+        console.log(convertItem[0].ID)
+        console.log(convertItem[1].ID)
+        // localStorage.setItem('Books', JSON.stringify(convertItem))
 
         for(let i = 0; i < convertItem.length; i++){
-          bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+          // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+          // bookContainer.setAttribute('class', 'books')
+          console.log(convertItem[i].ID.length)
+          let getWord = convertItem[i].ID
+          // console.log(getWord[]) 
+          console.log(convertItem[i].ID)
+          console.log(Number(convertItem[i].ID[convertItem[i].ID.length - 1]))
+          let isItNum = Number(convertItem[i].ID[convertItem[i].ID.length - 1])
+
+          if(!isNaN(Number(convertItem[i].ID[convertItem[i].ID.length - 1]))){
+            bookContainer.setAttribute('id',`${convertItem[i].ID}`)
+            console.log('no Change')
+          }else{
+            convertItem[i].ID = `${lowerCaseName}${i}`
+            bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+          }
+          
+          bookContainer.setAttribute('class', 'books')
+          // convertItem[i].ID = `${lowerCaseName}${i}`
+          // console.log(titleNAuthorObj.ID)
         }
+        localStorage.setItem('Books', JSON.stringify(convertItem))
 
         // for(let i = convertItem.length; i <= 0; i--){
         //   bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
@@ -278,6 +331,8 @@ function getBookInfo() {
           // window.location.href = `https://www.goodreads.com/book/show/${}`
         }
       })
+      console.log('change id name ', titleNAuthorObj[0].ID)
+      console.log(titleNAuthorObj)
 
     });
 
