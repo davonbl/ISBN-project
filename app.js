@@ -109,6 +109,8 @@ testISBN.addEventListener("keydown", (e) => {
           displayBook.innerText = titleNAuthor
           titleNAuthorObj[0].Title = bookData.title + ': ' + bookData.subtitle; 
         }
+
+
         // displayBook.style.fontWeight = 'bold'; 
         bookmakrs.append(displayBook); 
         
@@ -154,9 +156,25 @@ function getBookInfo() {
     })
     .then((data) => {
       console.log(data);
+      //why you have to use and square bracket notion instead of curly braclets 
+      console.log(data[`ISBN:${passISBN.authors}`]);
+      // looks like the item needs to be stored in a varible before playing around
+      //with it
+
+      // console.log(data.authors[0].name)
       console.log(data[`ISBN:${[passISBN]}`]);
       let bookData = data[`ISBN:${[passISBN]}`]
-      console.log(bookData.by_statement)
+      // console.log(bookData.by_statement)
+      // console.log(bookData.authors[0].name)
+      let grabFirstChar = bookData.authors[0].name[0]
+      console.log(grabFirstChar)
+      // (bookData.authors[0].name).replaceAll(grabFirstChar, grabFirstChar.toLowerCase())
+      // let nameID = (bookData.authors[0].name).replaceAll(' ', '')
+      nameID = (bookData.authors[0].name).replaceAll(grabFirstChar, grabFirstChar.toLowerCase())
+      let lowerCaseName = nameID.replaceAll(' ', '')
+      //0934868255
+      console.log(lowerCaseName)
+      // console.log(nameID[0].toLowerCase())
       // console.log()
       // bookData.subtitle !== ''
       // let displayBook = document.createElement('p');
@@ -185,6 +203,8 @@ function getBookInfo() {
       // }
       let author = bookData.hasOwnProperty('by_statement')? bookData.by_statement 
       : bookData.authors[0].name
+      console.log('author ', author)
+      console.log('name ', bookData.by_statement)
       let titleNAuthor = `${bookData.title} by ${author}`
       displayBook.innerText = titleNAuthor
 
@@ -204,17 +224,48 @@ function getBookInfo() {
         titleNAuthorObj[0].Title = bookData.title + ': ' + bookData.subtitle; 
       }
       // displayBook.style.fontWeight = 'bold'; 
-      bookmakrs.append(displayBook); 
       
+
       // localstorage
+
+      let bookContainer = document.createElement('div')
+      bookContainer.append(displayBook)
+
+      bookmakrs.append(bookContainer); 
+
+      let getNewIDNumber = JSON.parse(localStorage.getItem('Books'))
+      // console.log('Get the length ', getNewIDNumber.length)
       if(!localStorage.getItem('Books')){
         localStorage.setItem('Books', JSON.stringify(titleNAuthorObj))
+        getNewIDNumber = JSON.parse(localStorage.getItem('Books'));
+        // for(let i = 0; i <= getNewIDNumber.length; i++){
+        // }
+        bookContainer.setAttribute('id',`${lowerCaseName}${0}`)
+        bookContainer.setAttribute('class', 'books')
+        console.log('Get the length ', getNewIDNumber.length)
       }else{
+        // debugger
+        /* There is an issue on the for loop when I just fo i < converItem.length */
         let convertItem = JSON.parse(localStorage.getItem('Books'))
         convertItem.push(titleNAuthorObj[0])
         localStorage.setItem('Books', JSON.stringify(convertItem))
+
+        for(let i = 0; i < convertItem.length; i++){
+          bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+        }
+
+        // for(let i = convertItem.length; i <= 0; i--){
+        //   bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+        // }
+        
       }
       // let convertBooks = JSON.parse(localStorage.getItem('Books'));
+
+
+
+
+    /* This a sub-function that would direct the user to a different page
+    if the clicked item's API has a description on the book from a different link  */
       let changePage = changeURL
       displayBook.addEventListener('click', ()=> {
         console.log('you just click on title')
