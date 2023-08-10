@@ -5,3 +5,9 @@
 p:hover{
     cursor: pointer;
 }
+
+p{
+    width: 75%;
+    margin-bottom: 0;
+    display: inline-block;
+}

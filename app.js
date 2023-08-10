@@ -243,7 +243,9 @@ function getBookInfo() {
       // localstorage
 
       let bookContainer = document.createElement('div')
-      bookContainer.append(displayBook)
+      let removeBookmarkBtn = document.createElement('button')
+      removeBookmarkBtn.innerText = 'Delete'
+      bookContainer.append(displayBook, removeBookmarkBtn)
 
       bookmarks.append(bookContainer); 
 
@@ -265,6 +267,18 @@ function getBookInfo() {
         bookContainer.setAttribute('id',`${lowerCaseName}${0}`)
         bookContainer.setAttribute('class', 'books')
         console.log('Get the length ', getNewIDNumber.length)
+        
+        removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${0}`)
+        // let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
+
+        removeBookmarkBtn.addEventListener('click', (e)=> {
+          let confirmAction = confirm('Are you sure you want to delete this bookmark?')
+          if(confirmAction === true){
+            let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
+            deleteBookmark.remove();
+            localStorage.removeItem('Books');
+          }
+        })
       }else{
         // debugger
         /* There is an issue on the for loop when I just fo i < converItem.length */
@@ -299,6 +313,12 @@ function getBookInfo() {
           if(!isNaN(Number(convertItem[i].ID[convertItem[i].ID.length - 1]))){
             bookContainer.setAttribute('id',`${convertItem[i].ID}`)
             console.log('no Change')
+            // removeBookmarkBtn.addEventListener('click', (e)=> {
+            //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
+            //   if(confirmAction === true){
+
+            //   }
+            // })
           }else{
             convertItem[i].ID = `${lowerCaseName}${i}`
             bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
@@ -306,7 +326,19 @@ function getBookInfo() {
           
           bookContainer.setAttribute('class', 'books')
           // convertItem[i].ID = `${lowerCaseName}${i}`
-          // console.log(titleNAuthorObj.ID)
+          // console.log(titleNAuthorObj.ID
+
+        //   removeBookmarkBtn.addEventListener('click', (e)=> {
+        //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
+        //   if(confirmAction === true){
+        //     // localStorage.clear()
+        //     // console.log('it works')
+        //     // bookmarks.remove
+        //     // while (bookmarks.firstChild) {
+        //     //   bookmarks.removeChild(bookmarks.firstChild);
+        //     // }
+        //   }
+        // })
         }
         localStorage.setItem('Books', JSON.stringify(convertItem))
 
@@ -340,6 +372,7 @@ function getBookInfo() {
       console.log(titleNAuthorObj)
 
     });
+
 
 
 
