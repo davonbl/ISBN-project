@@ -271,12 +271,24 @@ function getBookInfo() {
         removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${0}`)
         // let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
 
+          //THIS IS WHERE I CREATED THE DELETE BUTTON
         removeBookmarkBtn.addEventListener('click', (e)=> {
           let confirmAction = confirm('Are you sure you want to delete this bookmark?')
           if(confirmAction === true){
             let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
             deleteBookmark.remove();
-            localStorage.removeItem('Books');
+            // localStorage.removeItem('Books');
+            let removeBookFromStorage = JSON.parse(localStorage.getItem('Books'))
+            console.log(removeBookFromStorage)
+            console.log(removeBookFromStorage[0])
+            removeBookFromStorage.splice(0, 1)
+            console.log(removeBookFromStorage)
+            localStorage.setItem('Books', JSON.stringify(removeBookFromStorage))
+            if(removeBookFromStorage.length === 0){
+              console.log('empty array')
+              localStorage.removeItem('Books')
+            }
+
           }
         })
       }else{
