@@ -1,5 +1,6 @@
 let ISBN = document.querySelector("#getISBN");
-let bookmakrs = document.querySelector('#bookmarks')
+let bookmarks = document.querySelector('#bookmarks')
+let pickAllBooks = document.querySelector('.books')
 
 //global values
 let haveBook = JSON.parse(localStorage.getItem('Books'))
@@ -20,11 +21,11 @@ if(localStorage.getItem('Books')){
     displayBook.innerText = titleNAuthor
 
 
-    // bookmakrs.append(displayBook)
+    // bookmarks.append(displayBook)
     let bookContainer = document.createElement('div')
     bookContainer.append(displayBook)
 
-    bookmakrs.append(bookContainer); 
+    bookmarks.append(bookContainer); 
 
     // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
     bookContainer.setAttribute('id', convertBooks[i].ID)
@@ -123,7 +124,7 @@ testISBN.addEventListener("keydown", (e) => {
 
 
         // displayBook.style.fontWeight = 'bold'; 
-        bookmakrs.append(displayBook); 
+        bookmarks.append(displayBook); 
 
         
         // localstorage
@@ -244,7 +245,7 @@ function getBookInfo() {
       let bookContainer = document.createElement('div')
       bookContainer.append(displayBook)
 
-      bookmakrs.append(bookContainer); 
+      bookmarks.append(bookContainer); 
 
       let getNewIDNumber = JSON.parse(localStorage.getItem('Books'))
       // console.log('Get the length ', getNewIDNumber.length)
@@ -265,7 +266,7 @@ function getBookInfo() {
         bookContainer.setAttribute('class', 'books')
         console.log('Get the length ', getNewIDNumber.length)
       }else{
-        debugger
+        // debugger
         /* There is an issue on the for loop when I just fo i < converItem.length */
         let convertItem = JSON.parse(localStorage.getItem('Books'))
         // titleNAuthorObj = [
@@ -308,6 +309,8 @@ function getBookInfo() {
           // console.log(titleNAuthorObj.ID)
         }
         localStorage.setItem('Books', JSON.stringify(convertItem))
+
+        
 
         // for(let i = convertItem.length; i <= 0; i--){
         //   bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
@@ -391,6 +394,10 @@ removeAllBtn.addEventListener('click', (e)=> {
   if(confirmAction === true){
     localStorage.clear()
     console.log('it works')
+    // bookmarks.remove
+    while (bookmarks.firstChild) {
+      bookmarks.removeChild(bookmarks.firstChild);
+    }
   }
   console.log(e)
   console.log('testing')
