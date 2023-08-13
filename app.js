@@ -168,6 +168,7 @@ function getBookInfo() {
       return res.json();
     })
     .then((data) => {
+      // debugger
       console.log(data);
       //why you have to use and square bracket notion instead of curly braclets 
       console.log(data[`ISBN:${passISBN.authors}`]);
@@ -243,15 +244,21 @@ function getBookInfo() {
       // localstorage
 
       let bookContainer = document.createElement('div')
-      let removeBookmarkBtn = document.createElement('button')
-      removeBookmarkBtn.innerText = 'Delete'
-      bookContainer.append(displayBook, removeBookmarkBtn)
+      // let removeBookmarkBtn = document.createElement('button')
+      // removeBookmarkBtn.innerText = 'Delete'
+      bookContainer.append(displayBook)
+      // bookContainer.append(displayBook, removeBookmarkBtn)
 
       bookmarks.append(bookContainer); 
 
       let getNewIDNumber = JSON.parse(localStorage.getItem('Books'))
       // console.log('Get the length ', getNewIDNumber.length)
       if(!localStorage.getItem('Books')){
+        let removeBookmarkBtn = document.createElement('button')
+        removeBookmarkBtn.innerText = 'Delete'
+        bookContainer.append(removeBookmarkBtn)
+        bookmarks.append(bookContainer)
+
         titleNAuthorObj = [
           { 
             ID: `${lowerCaseName}${0}`,
@@ -268,7 +275,7 @@ function getBookInfo() {
         bookContainer.setAttribute('class', 'books')
         console.log('Get the length ', getNewIDNumber.length)
         
-        removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${0}`)
+        removeBookmarkBtn.setAttribute('id',`${lowerCaseName.toUpperCase()}${0}`)
         // let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
 
           //THIS IS WHERE I CREATED THE DELETE BUTTON
@@ -276,6 +283,7 @@ function getBookInfo() {
           let confirmAction = confirm('Are you sure you want to delete this bookmark?')
           if(confirmAction === true){
             let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
+            deleteBookmark = document.getElementById(`${lowerCaseName}${0}`)
             deleteBookmark.remove();
             // localStorage.removeItem('Books');
             let removeBookFromStorage = JSON.parse(localStorage.getItem('Books'))
@@ -313,30 +321,80 @@ function getBookInfo() {
         // localStorage.setItem('Books', JSON.stringify(convertItem))
 
         for(let i = 0; i < convertItem.length; i++){
+          // debugger
           // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
           // bookContainer.setAttribute('class', 'books')
           console.log(convertItem[i].ID.length)
           let getWord = convertItem[i].ID
           // console.log(getWord[]) 
           console.log(convertItem[i].ID)
+          console.log(convertItem[i].ID.toUpperCase())
+          let buttonName = convertItem[i].ID.toUpperCase()
+          console.log(buttonName)
           console.log(Number(convertItem[i].ID[convertItem[i].ID.length - 1]))
           let isItNum = Number(convertItem[i].ID[convertItem[i].ID.length - 1])
 
-          if(!isNaN(Number(convertItem[i].ID[convertItem[i].ID.length - 1]))){
-            bookContainer.setAttribute('id',`${convertItem[i].ID}`)
+          if(!isNaN(isItNum)){
+            let refRemoveBookmarkBtn = document.querySelector(`#${convertItem[i].ID.toUpperCase()}`)
+            console.log(refRemoveBookmarkBtn)
+            refRemoveBookmarkBtn = document.getElementById(`${convertItem[i].ID.toUpperCase()}`)
+            console.log(refRemoveBookmarkBtn)
+            refRemoveBookmarkBtn = document.getElementById(`${buttonName}`)
+            console.log(refRemoveBookmarkBtn)
+            refRemoveBookmarkBtn.innerText = 'testing Delete'
+
+
+            bookContainer.setAttribute('id',`${convertItem[i].ID}` )
+            refRemoveBookmarkBtn.setAttribute('id',`${convertItem[i].ID.toUpperCase()}` )
             console.log('no Change')
-            // removeBookmarkBtn.addEventListener('click', (e)=> {
+            // refRemoveBookmarkBtn.addEventListener('click', (e)=> {
             //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
             //   if(confirmAction === true){
-
+            //     console.log('delete confirm')
             //   }
             // })
           }else{
+            let removeBookmarkBtn = document.createElement('button')
+            removeBookmarkBtn.innerText = 'Delete'
+            bookContainer.append(removeBookmarkBtn)
+            bookmarks.append(bookContainer)
+
+            
             convertItem[i].ID = `${lowerCaseName}${i}`
+            console.log(convertItem[i].ID.toUpperCase())
+            console.log(`${lowerCaseName.toUpperCase()}${i}`)
             bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
+            removeBookmarkBtn.setAttribute('id',`${lowerCaseName.toUpperCase()}${i}`)
+            removeBookmarkBtn.addEventListener('click', (e)=> {
+              let confirmAction = confirm('Are you sure you want to delete this bookmark?')
+              // if(confirmAction === true){
+              //   console.log('delete confirm')
+              // }
+              if(confirmAction === true){
+                let deleteBookmark = document.querySelector(`#${lowerCaseName.toUpperCase()}${i}`)
+                console.log(deleteBookmark)
+                deleteBookmark = document.getElementById(`${lowerCaseName}${i}`)
+                deleteBookmark.remove();
+                // localStorage.removeItem('Books');
+                let removeBookFromStorage = JSON.parse(localStorage.getItem('Books'))
+                console.log(removeBookFromStorage)
+                console.log(removeBookFromStorage[i])
+                removeBookFromStorage.splice(i, 1)
+                console.log(removeBookFromStorage)
+                localStorage.setItem('Books', JSON.stringify(removeBookFromStorage))
+                if(removeBookFromStorage.length === 0){
+                  console.log('empty array')
+                  localStorage.removeItem('Books')
+                }
+    
+              }
+            })
           }
           
           bookContainer.setAttribute('class', 'books')
+
+
+
           // convertItem[i].ID = `${lowerCaseName}${i}`
           // console.log(titleNAuthorObj.ID
 
@@ -351,7 +409,42 @@ function getBookInfo() {
         //     // }
         //   }
         // })
-        }
+          // removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${0}`)
+
+
+          // removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${i}`)
+          // let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
+
+            //THIS IS WHERE I CREATED THE DELETE BUTTON
+
+          // removeBookmarkBtn.addEventListener('click', (e)=> {
+          //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
+          //     if(confirmAction === true){
+          //       console.log('delete confirm')
+          //     }
+          //   // if(confirmAction === true){
+          //   //   let deleteBookmark = document.querySelector(`#${lowerCaseName}${i}`)
+          //   //   deleteBookmark.remove();
+          //   //   // localStorage.removeItem('Books');
+          //   //   let removeBookFromStorage = JSON.parse(localStorage.getItem('Books'))
+          //   //   console.log(removeBookFromStorage)
+          //   //   console.log(removeBookFromStorage[i])
+          //   //   removeBookFromStorage.splice(0, 1)
+          //   //   console.log(removeBookFromStorage)
+          //   //   localStorage.setItem('Books', JSON.stringify(removeBookFromStorage))
+          //   //   if(removeBookFromStorage.length === 0){
+          //   //     console.log('empty array')
+          //   //     localStorage.removeItem('Books')
+          //   //   }
+
+          //   // }
+          // })
+
+
+          }
+
+
+          
         localStorage.setItem('Books', JSON.stringify(convertItem))
 
         
