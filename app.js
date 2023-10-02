@@ -157,8 +157,6 @@ testISBN.addEventListener("keydown", (e) => {
 
 function getBookInfo() {
   let displayISBN = document.querySelector("#typeISBN");
-  // console.log("HELLO");
-  // console.log(testISBN.value)
   let passISBN = displayISBN.value
   fetch(
     `https://openlibrary.org/api/books?bibkeys=ISBN:${passISBN}&jscmd=data&format=json`
@@ -175,23 +173,14 @@ function getBookInfo() {
       // looks like the item needs to be stored in a varible before playing around
       //with it
 
-      // console.log(data.authors[0].name)
       console.log(data[`ISBN:${[passISBN]}`]);
       let bookData = data[`ISBN:${[passISBN]}`]
-      // console.log(bookData.by_statement)
-      // console.log(bookData.authors[0].name)
+
       let grabFirstChar = bookData.authors[0].name[0]
       console.log(grabFirstChar)
-      // (bookData.authors[0].name).replaceAll(grabFirstChar, grabFirstChar.toLowerCase())
-      // let nameID = (bookData.authors[0].name).replaceAll(' ', '')
       nameID = (bookData.authors[0].name).replaceAll(grabFirstChar, grabFirstChar.toLowerCase())
       let lowerCaseName = nameID.replaceAll(' ', '')
-      //0934868255
       console.log(lowerCaseName)
-      // console.log(nameID[0].toLowerCase())
-      // console.log()
-      // bookData.subtitle !== ''
-      // let displayBook = document.createElement('p');
       let haveBook = JSON.parse(localStorage.getItem('Books'))
       if(localStorage.getItem('Books')){
         for(let i = 0; i <= haveBook.length - 1; i++){
@@ -211,18 +200,13 @@ function getBookInfo() {
         changeURL = bookData.identifiers.goodreads[0]
       }
       console.log(changeURL)
-
-      // if(bookData.hasOwnProperty('by_statement')){
-      //   console.log('IT DOES HAVE IT')
-      // }
       let author = bookData.hasOwnProperty('by_statement')? bookData.by_statement 
       : bookData.authors[0].name
       console.log('author ', author)
       console.log('name ', bookData.by_statement)
       let titleNAuthor = `${bookData.title} by ${author}`
       displayBook.innerText = titleNAuthor
-
-      
+  
 
       let titleNAuthorObj = [
         { 
@@ -303,14 +287,7 @@ function getBookInfo() {
         // debugger
         /* There is an issue on the for loop when I just fo i < converItem.length */
         let convertItem = JSON.parse(localStorage.getItem('Books'))
-        // titleNAuthorObj = [
-        //   { 
-        //     ID: lowerCaseName,
-        //     Title: bookData.title, 
-        //     Author:author,
-        //     ISBN: passISBN,
-        //     Goodreads_url: changeURL
-        //   }]
+
 
 
 
@@ -321,12 +298,10 @@ function getBookInfo() {
         // localStorage.setItem('Books', JSON.stringify(convertItem))
 
         for(let i = 0; i < convertItem.length; i++){
-          // debugger
-          // bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
-          // bookContainer.setAttribute('class', 'books')
+
           console.log(convertItem[i].ID.length)
           let getWord = convertItem[i].ID
-          // console.log(getWord[]) 
+
           console.log(convertItem[i].ID)
           console.log(convertItem[i].ID.toUpperCase())
           let buttonName = convertItem[i].ID.toUpperCase()
@@ -347,12 +322,7 @@ function getBookInfo() {
             bookContainer.setAttribute('id',`${convertItem[i].ID}` )
             refRemoveBookmarkBtn.setAttribute('id',`${convertItem[i].ID.toUpperCase()}` )
             console.log('no Change')
-            // refRemoveBookmarkBtn.addEventListener('click', (e)=> {
-            //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
-            //   if(confirmAction === true){
-            //     console.log('delete confirm')
-            //   }
-            // })
+   
           }else{
             let removeBookmarkBtn = document.createElement('button')
             removeBookmarkBtn.innerText = 'Delete'
@@ -367,9 +337,7 @@ function getBookInfo() {
             removeBookmarkBtn.setAttribute('id',`${lowerCaseName.toUpperCase()}${i}`)
             removeBookmarkBtn.addEventListener('click', (e)=> {
               let confirmAction = confirm('Are you sure you want to delete this bookmark?')
-              // if(confirmAction === true){
-              //   console.log('delete confirm')
-              // }
+
               if(confirmAction === true){
                 let deleteBookmark = document.querySelector(`#${lowerCaseName.toUpperCase()}${i}`)
                 console.log(deleteBookmark)
@@ -393,68 +361,12 @@ function getBookInfo() {
           
           bookContainer.setAttribute('class', 'books')
 
-
-
-          // convertItem[i].ID = `${lowerCaseName}${i}`
-          // console.log(titleNAuthorObj.ID
-
-        //   removeBookmarkBtn.addEventListener('click', (e)=> {
-        //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
-        //   if(confirmAction === true){
-        //     // localStorage.clear()
-        //     // console.log('it works')
-        //     // bookmarks.remove
-        //     // while (bookmarks.firstChild) {
-        //     //   bookmarks.removeChild(bookmarks.firstChild);
-        //     // }
-        //   }
-        // })
-          // removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${0}`)
-
-
-          // removeBookmarkBtn.setAttribute('id',`${lowerCaseName}${i}`)
-          // let deleteBookmark = document.querySelector(`#${lowerCaseName}${0}`)
-
-            //THIS IS WHERE I CREATED THE DELETE BUTTON
-
-          // removeBookmarkBtn.addEventListener('click', (e)=> {
-          //   let confirmAction = confirm('Are you sure you want to delete this bookmark?')
-          //     if(confirmAction === true){
-          //       console.log('delete confirm')
-          //     }
-          //   // if(confirmAction === true){
-          //   //   let deleteBookmark = document.querySelector(`#${lowerCaseName}${i}`)
-          //   //   deleteBookmark.remove();
-          //   //   // localStorage.removeItem('Books');
-          //   //   let removeBookFromStorage = JSON.parse(localStorage.getItem('Books'))
-          //   //   console.log(removeBookFromStorage)
-          //   //   console.log(removeBookFromStorage[i])
-          //   //   removeBookFromStorage.splice(0, 1)
-          //   //   console.log(removeBookFromStorage)
-          //   //   localStorage.setItem('Books', JSON.stringify(removeBookFromStorage))
-          //   //   if(removeBookFromStorage.length === 0){
-          //   //     console.log('empty array')
-          //   //     localStorage.removeItem('Books')
-          //   //   }
-
-          //   // }
-          // })
-
-
           }
-
-
-          
+    
         localStorage.setItem('Books', JSON.stringify(convertItem))
-
-        
-
-        // for(let i = convertItem.length; i <= 0; i--){
-        //   bookContainer.setAttribute('id',`${lowerCaseName}${i}`)
-        // }
         
       }
-      // let convertBooks = JSON.parse(localStorage.getItem('Books'));
+
 
 
 
@@ -478,52 +390,6 @@ function getBookInfo() {
 
     });
 
-
-
-
-  // let displayISBN = document.querySelector("#typeISBN").value;
-
-  // if (displayISBN.includes("-")) {
-  //   displayISBN = displayISBN.replace("-", "");
-  // }
-  // // console.log(typeof displayISBN)
-  // // console.log(displayISBN)
-
-  // // `https://openlibrary.org/isbn/${displayISBN}.json`
-
-  // fetch(`https://openlibrary.org/isbn/${displayISBN}.json`)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     console.log(data.data);
-  //     console.log(data);
-  //     console.log(data.url);
-  //     let testing = data;
-  //     let addBook;
-  //     // console.log(testing)
-  //     // console.log(typeof testing)
-  //     // console.log(data.title, data.subtitle)
-  //     let bookmarks = document.querySelector("#bookmarks");
-  //     let title = document.createElement("p");
-  //     let titleOfBook = data.title;
-  //     if (testing.hasOwnProperty("subtitle")) {
-  //       titleOfBook = data.title + ": " + data.subtitle;
-  //     }
-  //     title.innerText = titleOfBook;
-  //     bookmarks.append(title);
-
-  //     if (!localStorage.getItem("title")) {
-  //       localStorage.setItem("Books", titleOfBook);
-  //       console.log("added first book");
-  //     } else {
-  //       addBook = JSON.stringify(localStorage.getItem("title"))
-  //         .replaceAll('"', "")
-  //         .split();
-  //       addBook.push(" " + titleOfBook);
-  //       localStorage.setItem("Books", addBook);
-  //       console.log("added another book");
-  //     }
-  //     console.log(addBook);
-  //   });
 }
 
 let removeAllBtn = document.querySelector('#removeAll')
